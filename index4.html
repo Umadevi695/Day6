@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MealMingle | Discover Delicious Recipes</title>
+    <style>
+      :root {
+        --bg: #fffaf4;
+        --bg-strong: #2b120d;
+        --card: rgba(255, 255, 255, 0.78);
+        --card-strong: #fff;
+        --primary: #ff7f50;
+        --primary-dark: #e05d2b;
+        --secondary: #fbbf24;
+        --text: #1c1c1c;
+        --muted: #6b6b6b;
+        --shadow: 0 24px 60px rgba(35, 23, 15, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background:
+          radial-gradient(circle at top left, rgba(255, 169, 107, 0.25), transparent 30%),
+          radial-gradient(circle at bottom right, rgba(255, 132, 92, 0.2), transparent 35%),
+          var(--bg);
+        color: var(--text);
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      .container {
+        width: min(1200px, calc(100% - 30px));
+        margin: 0 auto;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        backdrop-filter: blur(14px);
+        background: rgba(255, 250, 244, 0.7);
+        border-bottom: 1px solid rgba(66, 44, 31, 0.08);
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 0;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--primary), #ffb067);
+        display: grid;
+        place-items: center;
+        color: white;
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 28px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+
+      .nav-cta {
+        background: var(--bg-strong);
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-cta:hover,
+      .primary-btn:hover,
+      .secondary-btn:hover,
+      .view-btn:hover,
+      .reset-btn:hover,
+      .surprise-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .hero {
+        padding: 54px 0 28px;
+        display: grid;
+        grid-template-columns: 1.25fr 0.75fr;
+        gap: 34px;
+        align-items: end;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 127, 80, 0.12);
+        color: var(--primary-dark);
+        border: 1px solid rgba(255, 127, 80, 0.2);
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 4vw, 4.3rem);
+        line-height: 1.05;
+        margin: 18px 0 16px;
+      }
+
+      .hero p {
+        color: var(--muted);
+        font-size: 1.08rem;
+        max-width: 620px;
+        line-height: 1.7;
+      }
+
+      .search-box {
+        margin-top: 26px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(44, 32, 24, 0.06);
+        border-radius: 18px;
+        box-shadow: 0 12px 30px rgba(18, 15, 8, 0.06);
+        padding: 12px 14px 12px 18px;
+      }
+
+      .search-box input {
+        border: none;
+        background: transparent;
+        flex: 1;
+        font-size: 1rem;
+        outline: none;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .view-btn,
+      .reset-btn,
+      .surprise-btn {
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .primary-btn {
+        background: linear-gradient(135deg, var(--primary), #ff9b65);
+        color: white;
+        padding: 14px 20px;
+        font-weight: 700;
+        box-shadow: 0 18px 26px rgba(255, 127, 80, 0.24);
+      }
+
+      .hero-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 230, 212, 0.65));
+        border: 1px solid rgba(44, 32, 24, 0.06);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .hero-image {
+        height: 360px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-label {
+        position: absolute;
+        left: 18px;
+        bottom: 18px;
+        background: rgba(20, 17, 13, 0.68);
+        color: white;
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-weight: 700;
+      }
+
+      .hero-meta {
+        padding: 18px 22px 22px;
+      }
+
+      .mini-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-top: 18px;
+      }
+
+      .mini-stat {
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 16px;
+        padding: 16px 12px;
+        text-align: center;
+      }
+
+      .mini-stat strong {
+        display: block;
+        font-size: 1.4rem;
+        margin-bottom: 4px;
+      }
+
+      .mini-stat span {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+
+      .filters {
+        margin-top: 12px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(44, 32, 24, 0.06);
+        border-radius: 26px;
+        padding: 22px;
+        box-shadow: 0 10px 25px rgba(24, 17, 11, 0.04);
+      }
+
+      .filter-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 0.9fr 0.9fr auto;
+        gap: 18px;
+        align-items: end;
+      }
+
+      .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .filter-group label {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .chip-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .chip {
+        border: 1px solid rgba(255, 127, 80, 0.15);
+        background: rgba(255, 127, 80, 0.06);
+        color: var(--primary-dark);
+        border-radius: 999px;
+        padding: 9px 14px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .chip.active {
+        background: linear-gradient(135deg, var(--primary), #ff9b65);
+        color: white;
+        border-color: transparent;
+        box-shadow: 0 12px 20px rgba(255, 127, 80, 0.2);
+      }
+
+      select {
+        width: 100%;
+        border: 1px solid rgba(44, 32, 24, 0.08);
+        border-radius: 12px;
+        padding: 13px 14px;
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--text);
+        outline: none;
+      }
+
+      .reset-btn {
+        background: rgba(44, 32, 24, 0.06);
+        color: var(--text);
+        padding: 13px 18px;
+        font-weight: 700;
+      }
+
+      .results-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 28px 0 18px;
+      }
+
+      .results-bar h2 {
+        font-size: 1.2rem;
+        margin: 0;
+      }
+
+      .surprise-btn {
+        background: rgba(251, 191, 36, 0.12);
+        color: #855d00;
+        font-weight: 700;
+        padding: 11px 16px;
+      }
+
+      .meal-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 22px;
+        padding-bottom: 60px;
+      }
+
+      .meal-card {
+        background: rgba(255, 255, 255, 0.74);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(44, 32, 24, 0.06);
+        box-shadow: 0 8px 24px rgba(29, 20, 15, 0.05);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+
+      .meal-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 30px rgba(25, 15, 9, 0.08);
+      }
+
+      .meal-card img {
+        height: 220px;
+        object-fit: cover;
+      }
+
+      .meal-body {
+        padding: 18px 18px 20px;
+      }
+
+      .meal-badges {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+
+      .meal-badges span {
+        background: rgba(255, 127, 80, 0.1);
+        color: var(--primary-dark);
+        border-radius: 999px;
+        padding: 6px 9px;
+        font-size: 0.7rem;
+        font-weight: 700;
+      }
+
+      .meal-card h3 {
+        margin: 0 0 14px;
+        font-size: 1.18rem;
+      }
+
+      .meal-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .meal-rating {
+        color: #b77b00;
+        font-weight: 700;
+      }
+
+      .view-btn {
+        background: var(--bg-strong);
+        color: white;
+        padding: 11px 14px;
+        font-weight: 700;
+      }
+
+      .empty-state {
+        grid-column: 1 / -1;
+        text-align: center;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 42px 24px;
+        border-radius: 24px;
+        border: 1px dashed rgba(44, 32, 24, 0.15);
+        color: var(--muted);
+      }
+
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(25, 17, 12, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 22px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.2s ease;
+        z-index: 50;
+      }
+
+      .modal.show {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        width: min(900px, 100%);
+        background: white;
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 26px 60px rgba(0, 0, 0, 0.18);
+      }
+
+      .modal-top {
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+      }
+
+      .modal-top img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .modal-body {
+        padding: 24px 28px 20px;
+      }
+
+      .modal-body h3 {
+        margin: 0 0 8px;
+        font-size: clamp(1.7rem, 2vw, 2.5rem);
+      }
+
+      .modal-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 14px 0 20px;
+      }
+
+      .modal-meta span {
+        background: rgba(255, 127, 80, 0.08);
+        color: var(--primary-dark);
+        border-radius: 999px;
+        padding: 7px 11px;
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .modal-body p {
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .ingredients {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 18px;
+        list-style: none;
+        padding: 0;
+        margin: 18px 0 0;
+      }
+
+      .ingredients li {
+        background: #fff8f3;
+        padding: 12px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        border: 1px solid rgba(255, 127, 80, 0.08);
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 1.3rem;
+        cursor: pointer;
+      }
+
+      @media (max-width: 980px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .meal-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .filter-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .nav-links {
+          display: none;
+        }
+
+        .filter-grid,
+        .meal-grid,
+        .modal-top,
+        .ingredients {
+          grid-template-columns: 1fr;
+        }
+
+        .search-box {
+          flex-direction: column;
+          align-items: stretch;
+          padding: 14px;
+        }
+
+        .topbar .nav-cta {
+          display: none;
+        }
+
+        .results-bar {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand">
+          <div class="brand-mark">🍽</div>
+          <span>MealMingle</span>
+        </div>
+        <nav class="nav-links">
+          <a href="#home">Home</a>
+          <a href="#filters">Filters</a>
+          <a href="#discover">Discover</a>
+          <a href="#popular">Popular</a>
+        </nav>
+        <button class="nav-cta">Get Recipes</button>
+      </div>
+    </header>
+
+    <main class="container" id="home">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">Fresh & trending recipes</span>
+          <h1>Cook bold flavors from around the world.</h1>
+          <p>
+            Explore irresistible meals, discover hidden favorites, and find your next comfort dish with smart filters for every craving.
+          </p>
+
+          <form id="searchForm" class="search-box">
+            <input id="searchInput" type="text" placeholder="Search for dishes, ingredients, or cuisine..." />
+            <button class="primary-btn" type="submit">Search</button>
+          </form>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-image">
+            <img id="heroImage" src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="Featured meal" />
+            <div id="heroLabel" class="hero-label">Featured Dish</div>
+          </div>
+          <div class="hero-meta">
+            <div id="heroName" style="font-size: 1.3rem; font-weight: 800; margin-bottom: 8px;">Spicy Chicken Bowl</div>
+            <div id="heroText" style="color: var(--muted); line-height: 1.6;">
+              A vibrant mix of grilled chicken, grains, and fresh herbs made for a quick gourmet bite.
+            </div>
+            <div class="mini-stats">
+              <div class="mini-stat">
+                <strong id="statsMeals">120+</strong>
+                <span>Recipes</span>
+              </div>
+              <div class="mini-stat">
+                <strong id="statsAreas">25</strong>
+                <span>Cuisines</span>
+              </div>
+              <div class="mini-stat">
+                <strong id="statsCategories">10</strong>
+                <span>Categories</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="filters" id="filters">
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>Categories</label>
+            <div id="categoryFilters" class="chip-list"></div>
+          </div>
+
+          <div class="filter-group">
+            <label>Area</label>
+            <select id="areaFilter">
+              <option value="">All areas</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label>Ingredient</label>
+            <select id="ingredientFilter">
+              <option value="">All ingredients</option>
+            </select>
+          </div>
+
+          <button id="resetFilters" class="reset-btn" type="button">Clear filters</button>
+        </div>
+      </section>
+
+      <section id="discover">
+        <div class="results-bar">
+          <h2 id="resultCount">Popular meals</h2>
+          <button id="surpriseMe" class="surprise-btn" type="button">Surprise me</button>
+        </div>
+
+        <div id="mealGrid" class="meal-grid"></div>
+      </section>
+    </main>
+
+    <div id="mealModal" class="modal" aria-hidden="true">
+      <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button id="closeModal" class="close-btn" type="button" aria-label="Close">×</button>
+        <div class="modal-top">
+          <img id="modalImage" src="" alt="Meal image" />
+          <div class="modal-body">
+            <h3 id="modalTitle">Meal Name</h3>
+            <div class="modal-meta">
+              <span id="modalCategory">Category</span>
+              <span id="modalArea">Area</span>
+              <span id="modalTags">Tags</span>
+            </div>
+            <p id="modalInstructions">Instructions will appear here.</p>
+            <ul id="ingredientsList" class="ingredients"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = 'https://www.themealdb.com/api/json/v1/1';
+      const state = {
+        query: '',
+        category: '',
+        area: '',
+        ingredient: ''
+      };
+
+      const elements = {
+        searchForm: document.getElementById('searchForm'),
+        searchInput: document.getElementById('searchInput'),
+        categoryFilters: document.getElementById('categoryFilters'),
+        areaFilter: document.getElementById('areaFilter'),
+        ingredientFilter: document.getElementById('ingredientFilter'),
+        resetFilters: document.getElementById('resetFilters'),
+        resultCount: document.getElementById('resultCount'),
+        mealGrid: document.getElementById('mealGrid'),
+        surpriseMe: document.getElementById('surpriseMe'),
+        modal: document.getElementById('mealModal'),
+        closeModal: document.getElementById('closeModal'),
+        modalImage: document.getElementById('modalImage'),
+        modalTitle: document.getElementById('modalTitle'),
+        modalCategory: document.getElementById('modalCategory'),
+        modalArea: document.getElementById('modalArea'),
+        modalTags: document.getElementById('modalTags'),
+        modalInstructions: document.getElementById('modalInstructions'),
+        ingredientsList: document.getElementById('ingredientsList'),
+        heroImage: document.getElementById('heroImage'),
+        heroName: document.getElementById('heroName'),
+        heroText: document.getElementById('heroText'),
+        heroLabel: document.getElementById('heroLabel'),
+        statsMeals: document.getElementById('statsMeals'),
+        statsAreas: document.getElementById('statsAreas'),
+        statsCategories: document.getElementById('statsCategories')
+      };
+
+      function setFeaturedMeal(meal) {
+        if (!meal) return;
+        elements.heroImage.src = meal.strMealThumb;
+        elements.heroImage.alt = meal.strMeal;
+        elements.heroName.textContent = meal.strMeal;
+        elements.heroText.textContent = meal.strInstructions ? meal.strInstructions.split('. ').slice(0, 2).join('. ') + '.' : 'A delicious homemade favorite packed with flavor.';
+        elements.heroLabel.textContent = `${meal.strArea || 'Global'} Favorite`;
+      }
+
+      async function fetchJson(url) {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Something went wrong while loading meal data.');
+        }
+        return response.json();
+      }
+
+      function renderCategoryChips(categories) {
+        elements.categoryFilters.innerHTML = categories
+          .map(
+            (category) => `
+              <button class="chip ${state.category === category.strCategory ? 'active' : ''}" data-category="${category.strCategory}" type="button">
+                ${category.strCategory}
+              </button>
+            `
+          )
+          .join('');
+
+        elements.categoryFilters.querySelectorAll('.chip').forEach((button) => {
+          button.addEventListener('click', () => {
+            const selected = button.dataset.category;
+            state.category = state.category === selected ? '' : selected;
+            state.area = '';
+            state.ingredient = '';
+            elements.areaFilter.value = '';
+            elements.ingredientFilter.value = '';
+            renderCategoryChips(categories);
+            loadMeals();
+          });
+        });
+      }
+
+      async function loadFilters() {
+        try {
+          const [categoryData, areaData, ingredientData] = await Promise.all([
+            fetchJson(`${API_BASE}/categories.php`),
+            fetchJson(`${API_BASE}/list.php?a=list`),
+            fetchJson(`${API_BASE}/list.php?i=list`)
+          ]);
+
+          const categories = categoryData.categories || [];
+          const areas = areaData.meals || [];
+          const ingredients = ingredientData.meals || [];
+
+          renderCategoryChips(categories.slice(0, 8));
+
+          elements.areaFilter.innerHTML = '<option value="">All areas</option>' + areas
+            .map((area) => `<option value="${area.strArea}">${area.strArea}</option>`)
+            .join('');
+
+          elements.ingredientFilter.innerHTML = '<option value="">All ingredients</option>' + ingredients
+            .slice(0, 20)
+            .map((ingredient) => `<option value="${ingredient.strIngredient}">${ingredient.strIngredient}</option>`)
+            .join('');
+
+          elements.statsAreas.textContent = String(areas.length || 25);
+          elements.statsCategories.textContent = String(categories.length || 10);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      function renderMeals(meals) {
+        if (!meals || meals.length === 0) {
+          elements.mealGrid.innerHTML = `
+            <div class="empty-state">
+              <h3>No meals found</h3>
+              <p>Try another keyword or clear the current filters to explore more dishes.</p>
+            </div>
+          `;
+          elements.resultCount.textContent = 'No results';
+          return;
+        }
+
+        elements.mealGrid.innerHTML = meals
+          .map(
+            (meal) => `
+              <article class="meal-card">
+                <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
+                <div class="meal-body">
+                  <div class="meal-badges">
+                    <span>${meal.strCategory || 'Dish'}</span>
+                    <span>${meal.strArea || 'Global'}</span>
+                  </div>
+                  <h3>${meal.strMeal}</h3>
+                  <div class="meal-footer">
+                    <span class="meal-rating">⭐ Fresh pick</span>
+                    <button class="view-btn" data-id="${meal.idMeal}" type="button">View recipe</button>
+                  </div>
+                </div>
+              </article>
+            `
+          )
+          .join('');
+
+        elements.resultCount.textContent = `${meals.length} meals found`;
+
+        elements.mealGrid.querySelectorAll('.view-btn').forEach((button) => {
+          button.addEventListener('click', async () => {
+            const id = button.dataset.id;
+            await openMealModal(id);
+          });
+        });
+      }
+
+      async function buildMealsUrl() {
+        if (state.query) {
+          return `${API_BASE}/search.php?s=${encodeURIComponent(state.query)}`;
+        }
+        if (state.category) {
+          return `${API_BASE}/filter.php?c=${encodeURIComponent(state.category)}`;
+        }
+        if (state.area) {
+          return `${API_BASE}/filter.php?a=${encodeURIComponent(state.area)}`;
+        }
+        if (state.ingredient) {
+          return `${API_BASE}/filter.php?i=${encodeURIComponent(state.ingredient)}`;
+        }
+        return `${API_BASE}/filter.php?c=Beef`;
+      }
+
+      async function loadMeals() {
+        try {
+          const url = await buildMealsUrl();
+          const data = await fetchJson(url);
+          const meals = data.meals || [];
+          renderMeals(meals);
+
+          if (meals.length > 0) {
+            const featuredMeal = meals[Math.floor(Math.random() * meals.length)];
+            setFeaturedMeal(featuredMeal);
+          }
+        } catch (error) {
+          console.error(error);
+          elements.mealGrid.innerHTML = `
+            <div class="empty-state">
+              <h3>Unable to load recipes right now</h3>
+              <p>Please try again in a moment.</p>
+            </div>
+          `;
+        }
+      }
+
+      elements.searchForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        state.query = elements.searchInput.value.trim();
+        state.category = '';
+        state.area = '';
+        state.ingredient = '';
+        elements.areaFilter.value = '';
+        elements.ingredientFilter.value = '';
+        renderCategoryChips(document.querySelectorAll('.chip') ? Array.from(document.querySelectorAll('.chip')).map((chip) => ({ strCategory: chip.dataset.category })) : []);
+        loadMeals();
+      });
+
+      elements.areaFilter.addEventListener('change', (event) => {
+        state.area = event.target.value;
+        state.category = '';
+        state.ingredient = '';
+        state.query = '';
+        elements.searchInput.value = '';
+        elements.ingredientFilter.value = '';
+        loadMeals();
+        renderCategoryChips(Array.from(document.querySelectorAll('.chip')).map((chip) => ({ strCategory: chip.dataset.category })));
+      });
+
+      elements.ingredientFilter.addEventListener('change', (event) => {
+        state.ingredient = event.target.value;
+        state.category = '';
+        state.area = '';
+        state.query = '';
+        elements.searchInput.value = '';
+        elements.areaFilter.value = '';
+        loadMeals();
+        renderCategoryChips(Array.from(document.querySelectorAll('.chip')).map((chip) => ({ strCategory: chip.dataset.category })));
+      });
+
+      elements.resetFilters.addEventListener('click', () => {
+        state.query = '';
+        state.category = '';
+        state.area = '';
+        state.ingredient = '';
+        elements.searchInput.value = '';
+        elements.areaFilter.value = '';
+        elements.ingredientFilter.value = '';
+        renderCategoryChips(Array.from(document.querySelectorAll('.chip')).map((chip) => ({ strCategory: chip.dataset.category })));
+        loadMeals();
+      });
+
+      elements.surpriseMe.addEventListener('click', async () => {
+        try {
+          const data = await fetchJson(`${API_BASE}/randomselection.php`);
+          const meals = data.meals || [];
+          const randomMeal = meals[Math.floor(Math.random() * meals.length)] || null;
+          if (!randomMeal) return;
+          await openMealModal(randomMeal.idMeal);
+        } catch (error) {
+          console.error(error);
+        }
+      });
+
+      async function openMealModal(id) {
+        try {
+          const data = await fetchJson(`${API_BASE}/lookup.php?i=${id}`);
+          const meal = data.meals && data.meals[0];
+          if (!meal) return;
+
+          elements.modalTitle.textContent = meal.strMeal;
+          elements.modalImage.src = meal.strMealThumb;
+          elements.modalImage.alt = meal.strMeal;
+          elements.modalCategory.textContent = meal.strCategory || 'General';
+          elements.modalArea.textContent = meal.strArea || 'Global';
+          elements.modalTags.textContent = meal.strTags ? meal.strTags : 'Homemade';
+          elements.modalInstructions.textContent = meal.strInstructions || 'No instructions available.';
+
+          const list = [];
+          for (let i = 1; i <= 20; i++) {
+            const ingredient = meal[`strIngredient${i}`];
+            const measure = meal[`strMeasure${i}`];
+            if (ingredient && ingredient.trim()) {
+              list.push(`${measure ? measure.trim() : ''} ${ingredient.trim()}`.trim());
+            }
+          }
+
+          elements.ingredientsList.innerHTML = list.map((item) => `<li>${item}</li>`).join('');
+          elements.modal.classList.add('show');
+          elements.modal.setAttribute('aria-hidden', 'false');
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      elements.closeModal.addEventListener('click', () => {
+        elements.modal.classList.remove('show');
+        elements.modal.setAttribute('aria-hidden', 'true');
+      });
+
+      elements.modal.addEventListener('click', (event) => {
+        if (event.target === elements.modal) {
+          elements.modal.classList.remove('show');
+          elements.modal.setAttribute('aria-hidden', 'true');
+        }
+      });
+
+      async function init() {
+        await loadFilters();
+        await loadMeals();
+
+        const defaultMeal = {
+          strMeal: 'Smoky Chicken Delight',
+          strMealThumb: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80',
+          strArea: 'American',
+          strInstructions: 'A comforting dish packed with smoky flavors, fresh herbs, and vibrant ingredients.'
+        };
+        setFeaturedMeal(defaultMeal);
+      }
+
+      init();
+    </script>
+  </body>
+</html>
