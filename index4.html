@@ -6,16 +6,16 @@
     <title>MealMingle | Discover Delicious Recipes</title>
     <style>
       :root {
-        --bg: #fffaf4;
-        --bg-strong: #2b120d;
-        --card: rgba(255, 255, 255, 0.78);
+        --bg: #fbf8f2;
+        --bg-strong: #24352b;
+        --card: rgba(255, 255, 255, 0.92);
         --card-strong: #fff;
-        --primary: #ff7f50;
-        --primary-dark: #e05d2b;
-        --secondary: #fbbf24;
-        --text: #1c1c1c;
-        --muted: #6b6b6b;
-        --shadow: 0 24px 60px rgba(35, 23, 15, 0.12);
+        --primary: #c85d3a;
+        --primary-dark: #a84329;
+        --secondary: #d9a441;
+        --text: #252a25;
+        --muted: #72766f;
+        --shadow: 0 24px 60px rgba(35, 42, 34, 0.1);
       }
 
       * {
@@ -29,10 +29,7 @@
       body {
         margin: 0;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background:
-          radial-gradient(circle at top left, rgba(255, 169, 107, 0.25), transparent 30%),
-          radial-gradient(circle at bottom right, rgba(255, 132, 92, 0.2), transparent 35%),
-          var(--bg);
+        background: var(--bg);
         color: var(--text);
       }
 
@@ -61,9 +58,9 @@
         position: sticky;
         top: 0;
         z-index: 20;
-        backdrop-filter: blur(14px);
-        background: rgba(255, 250, 244, 0.7);
-        border-bottom: 1px solid rgba(66, 44, 31, 0.08);
+        backdrop-filter: blur(16px);
+        background: rgba(251, 248, 242, 0.92);
+        border-bottom: 1px solid rgba(36, 53, 43, 0.09);
       }
 
       .nav {
@@ -108,7 +105,11 @@
         border-radius: 999px;
         font-weight: 700;
         cursor: pointer;
-        transition: transform 0.2s ease;
+        transition: transform 0.2s ease, background 0.2s ease;
+      }
+
+      .nav-cta:hover {
+        background: #354c3d;
       }
 
       .nav-cta:hover,
@@ -121,10 +122,10 @@
       }
 
       .hero {
-        padding: 54px 0 28px;
+        padding: 68px 0 38px;
         display: grid;
         grid-template-columns: 1.25fr 0.75fr;
-        gap: 34px;
+        gap: 48px;
         align-items: end;
       }
 
@@ -142,8 +143,9 @@
       }
 
       h1 {
-        font-size: clamp(2.4rem, 4vw, 4.3rem);
+        font-size: clamp(2.8rem, 5vw, 4.7rem);
         line-height: 1.05;
+        letter-spacing: -0.055em;
         margin: 18px 0 16px;
       }
 
@@ -159,9 +161,9 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        background: rgba(255, 255, 255, 0.8);
-        border: 1px solid rgba(44, 32, 24, 0.06);
-        border-radius: 18px;
+        background: white;
+        border: 1px solid rgba(36, 53, 43, 0.1);
+        border-radius: 16px;
         box-shadow: 0 12px 30px rgba(18, 15, 8, 0.06);
         padding: 12px 14px 12px 18px;
       }
@@ -186,23 +188,23 @@
       }
 
       .primary-btn {
-        background: linear-gradient(135deg, var(--primary), #ff9b65);
+        background: var(--primary);
         color: white;
         padding: 14px 20px;
         font-weight: 700;
-        box-shadow: 0 18px 26px rgba(255, 127, 80, 0.24);
+        box-shadow: 0 12px 20px rgba(200, 93, 58, 0.2);
       }
 
       .hero-card {
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 230, 212, 0.65));
-        border: 1px solid rgba(44, 32, 24, 0.06);
-        border-radius: 28px;
-        overflow: hidden;
+        background: white;
+        border: 1px solid rgba(36, 53, 43, 0.08);
+        border-radius: 22px;
+        overflow-y: auto;
         box-shadow: var(--shadow);
       }
 
       .hero-image {
-        height: 360px;
+        height: 330px;
         position: relative;
         overflow: hidden;
       }
@@ -255,9 +257,9 @@
 
       .filters {
         margin-top: 12px;
-        background: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(44, 32, 24, 0.06);
-        border-radius: 26px;
+        background: white;
+        border: 1px solid rgba(36, 53, 43, 0.09);
+        border-radius: 20px;
         padding: 22px;
         box-shadow: 0 10px 25px rgba(24, 17, 11, 0.04);
       }
@@ -301,10 +303,10 @@
       }
 
       .chip.active {
-        background: linear-gradient(135deg, var(--primary), #ff9b65);
+        background: var(--primary);
         color: white;
         border-color: transparent;
-        box-shadow: 0 12px 20px rgba(255, 127, 80, 0.2);
+        box-shadow: 0 8px 16px rgba(200, 93, 58, 0.2);
       }
 
       select {
@@ -351,8 +353,8 @@
       }
 
       .meal-card {
-        background: rgba(255, 255, 255, 0.74);
-        border-radius: 20px;
+        background: white;
+        border-radius: 18px;
         overflow: hidden;
         border: 1px solid rgba(44, 32, 24, 0.06);
         box-shadow: 0 8px 24px rgba(29, 20, 15, 0.05);
@@ -365,6 +367,7 @@
       }
 
       .meal-card img {
+        width: 100%;
         height: 220px;
         object-fit: cover;
       }
@@ -445,9 +448,12 @@
       .modal-content {
         width: min(900px, 100%);
         background: white;
-        border-radius: 28px;
+        border-radius: 22px;
         overflow: hidden;
         box-shadow: 0 26px 60px rgba(0, 0, 0, 0.18);
+        position: relative;
+        max-height: calc(100vh - 44px);
+        overflow-y: auto;
       }
 
       .modal-top {
@@ -458,6 +464,7 @@
       .modal-top img {
         width: 100%;
         height: 100%;
+        min-height: 440px;
         object-fit: cover;
       }
 
@@ -501,7 +508,7 @@
       }
 
       .ingredients li {
-        background: #fff8f3;
+        background: #faf7f1;
         padding: 12px 14px;
         border-radius: 12px;
         color: var(--text);
@@ -509,9 +516,11 @@
       }
 
       .close-btn {
-        position: absolute;
+        position: sticky;
         top: 16px;
-        right: 16px;
+        float: right;
+        margin: 12px 12px -52px 0;
+        z-index: 2;
         width: 40px;
         height: 40px;
         border: none;
@@ -519,6 +528,116 @@
         background: rgba(255, 255, 255, 0.9);
         font-size: 1.3rem;
         cursor: pointer;
+      }
+
+      .modal-body h4 {
+        margin: 22px 0 0;
+        font-size: 1rem;
+      }
+
+      .video-section {
+        padding: 0 28px 28px;
+      }
+
+      .video-section h4 {
+        margin: 0 0 12px;
+      }
+
+      .video-frame {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: 0;
+        border-radius: 14px;
+        background: #f1eee8;
+      }
+
+      .video-frame[hidden] {
+        display: none;
+      }
+
+      .video-unavailable {
+        display: none;
+        color: var(--muted);
+        margin: 0;
+      }
+
+      .meal-card h3 {
+        line-height: 1.35;
+        min-height: 2.7em;
+      }
+
+      .meal-card .view-btn {
+        white-space: nowrap;
+      }
+
+      .nav-links a {
+        transition: color 0.2s ease;
+      }
+
+      .nav-links a:hover {
+        color: var(--primary-dark);
+      }
+
+      button:focus-visible,
+      a:focus-visible,
+      input:focus-visible,
+      select:focus-visible {
+        outline: 3px solid rgba(200, 93, 58, 0.35);
+        outline-offset: 3px;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          width: min(100% - 28px, 540px);
+        }
+
+        .hero {
+          padding-top: 42px;
+          gap: 28px;
+        }
+
+        .hero-image {
+          height: 250px;
+        }
+
+        .filter-grid,
+        .meal-grid,
+        .modal-top,
+        .ingredients {
+          grid-template-columns: 1fr;
+        }
+
+        .meal-grid {
+          gap: 16px;
+        }
+
+        .meal-card img {
+          height: 240px;
+        }
+
+        .modal {
+          padding: 10px;
+          align-items: flex-start;
+        }
+
+        .modal-content {
+          max-height: calc(100vh - 20px);
+          border-radius: 16px;
+        }
+
+        .modal-top img {
+          min-height: 0;
+          height: 240px;
+        }
+
+        .modal-body {
+          padding: 20px;
+        }
+
+        .video-section {
+          padding: 0 20px 20px;
+        }
       }
 
       @media (max-width: 980px) {
@@ -554,7 +673,8 @@
         }
 
         .topbar .nav-cta {
-          display: none;
+          padding: 10px 14px;
+          font-size: 0.82rem;
         }
 
         .results-bar {
@@ -576,9 +696,9 @@
           <a href="#home">Home</a>
           <a href="#filters">Filters</a>
           <a href="#discover">Discover</a>
-          <a href="#popular">Popular</a>
+          <a href="#discover">Popular</a>
         </nav>
-        <button class="nav-cta">Get Recipes</button>
+        <a class="nav-cta" href="#discover">Explore recipes</a>
       </div>
     </header>
 
@@ -650,7 +770,7 @@
         </div>
       </section>
 
-      <section id="discover">
+      <section id="discover" aria-label="Discover recipes">
         <div class="results-bar">
           <h2 id="resultCount">Popular meals</h2>
           <button id="surpriseMe" class="surprise-btn" type="button">Surprise me</button>
@@ -673,9 +793,15 @@
               <span id="modalTags">Tags</span>
             </div>
             <p id="modalInstructions">Instructions will appear here.</p>
+            <h4>Ingredients</h4>
             <ul id="ingredientsList" class="ingredients"></ul>
           </div>
         </div>
+        <section class="video-section" aria-label="Recipe video">
+          <h4>Cook along</h4>
+          <iframe id="modalVideo" class="video-frame" title="Recipe video on YouTube" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen hidden></iframe>
+          <p id="videoUnavailable" class="video-unavailable">A video is not available for this recipe yet.</p>
+        </section>
       </div>
     </div>
 
@@ -706,6 +832,8 @@
         modalArea: document.getElementById('modalArea'),
         modalTags: document.getElementById('modalTags'),
         modalInstructions: document.getElementById('modalInstructions'),
+        modalVideo: document.getElementById('modalVideo'),
+        videoUnavailable: document.getElementById('videoUnavailable'),
         ingredientsList: document.getElementById('ingredientsList'),
         heroImage: document.getElementById('heroImage'),
         heroName: document.getElementById('heroName'),
@@ -807,7 +935,7 @@
                 <img src="${meal.strMealThumb}" alt="${meal.strMeal}" />
                 <div class="meal-body">
                   <div class="meal-badges">
-                    <span>${meal.strCategory || 'Dish'}</span>
+                    <span>${meal.strCategory || 'Recipe'}</span>
                     <span>${meal.strArea || 'Global'}</span>
                   </div>
                   <h3>${meal.strMeal}</h3>
@@ -844,7 +972,7 @@
         if (state.ingredient) {
           return `${API_BASE}/filter.php?i=${encodeURIComponent(state.ingredient)}`;
         }
-        return `${API_BASE}/filter.php?c=Beef`;
+        return `${API_BASE}/filter.php?c=Chicken`;
       }
 
       async function loadMeals() {
@@ -940,6 +1068,10 @@
           elements.modalArea.textContent = meal.strArea || 'Global';
           elements.modalTags.textContent = meal.strTags ? meal.strTags : 'Homemade';
           elements.modalInstructions.textContent = meal.strInstructions || 'No instructions available.';
+          const videoUrl = getYouTubeEmbedUrl(meal.strYoutube);
+          elements.modalVideo.hidden = !videoUrl;
+          elements.modalVideo.src = videoUrl || '';
+          elements.videoUnavailable.style.display = videoUrl ? 'none' : 'block';
 
           const list = [];
           for (let i = 1; i <= 20; i++) {
@@ -953,34 +1085,60 @@
           elements.ingredientsList.innerHTML = list.map((item) => `<li>${item}</li>`).join('');
           elements.modal.classList.add('show');
           elements.modal.setAttribute('aria-hidden', 'false');
+          document.body.style.overflow = 'hidden';
         } catch (error) {
           console.error(error);
         }
       }
 
       elements.closeModal.addEventListener('click', () => {
-        elements.modal.classList.remove('show');
-        elements.modal.setAttribute('aria-hidden', 'true');
+        closeMealModal();
       });
 
       elements.modal.addEventListener('click', (event) => {
         if (event.target === elements.modal) {
-          elements.modal.classList.remove('show');
-          elements.modal.setAttribute('aria-hidden', 'true');
+          closeMealModal();
+        }
+      });
+
+      function getYouTubeEmbedUrl(value) {
+        if (!value) return '';
+
+        try {
+          const videoUrl = new URL(value);
+          let videoId = '';
+
+          if (videoUrl.hostname === 'youtu.be') {
+            videoId = videoUrl.pathname.slice(1);
+          } else if (['youtube.com', 'www.youtube.com', 'm.youtube.com'].includes(videoUrl.hostname)) {
+            videoId = videoUrl.searchParams.get('v') || '';
+            if (!videoId && videoUrl.pathname.startsWith('/embed/')) {
+              videoId = videoUrl.pathname.split('/')[2] || '';
+            }
+          }
+
+          return /^[\w-]{11}$/.test(videoId) ? `https://www.youtube-nocookie.com/embed/${videoId}` : '';
+        } catch (error) {
+          return '';
+        }
+      }
+
+      function closeMealModal() {
+        elements.modal.classList.remove('show');
+        elements.modal.setAttribute('aria-hidden', 'true');
+        elements.modalVideo.src = '';
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && elements.modal.classList.contains('show')) {
+          closeMealModal();
         }
       });
 
       async function init() {
         await loadFilters();
         await loadMeals();
-
-        const defaultMeal = {
-          strMeal: 'Smoky Chicken Delight',
-          strMealThumb: 'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=800&q=80',
-          strArea: 'American',
-          strInstructions: 'A comforting dish packed with smoky flavors, fresh herbs, and vibrant ingredients.'
-        };
-        setFeaturedMeal(defaultMeal);
       }
 
       init();
